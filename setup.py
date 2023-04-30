@@ -12,7 +12,7 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = ["pydeck", "xarray"]
+requirements = ["pydeck", "xarray", "orjson", "matplotlib"]
 
 setup_requirements = [
     "pytest-runner",
