@@ -1,1 +1,2 @@
 pydeck-grid
+pydata-sphinx-theme
