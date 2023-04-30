@@ -75,6 +75,8 @@ class GridLayerException(Exception):
 
 
 class GridLayer(Layer):
+    """Base layer for all pydeck grid layers"""
+
     def __init__(
         self,
         type,
@@ -135,18 +137,17 @@ class GridLayer(Layer):
     ):
         """Return a colorbar for the layer to use in the pydeck description
 
-        Parameters
-        ==========
-        labels: list, optional
-            List of labels to use for the colorbar
-        units: str, optional
-            Units string to use for the colorbar
-        width: int, optional
-            Width of the colorbar in pixels
-        height: int, optional
-            Height of the colorbar in pixels
-        labelcolor: str, optional
-            Color of the colorbar labels
+        Args:
+            labels: list, optional
+                List of labels to use for the colorbar
+            units: str, optional
+                Units string to use for the colorbar
+            width: int, optional
+                Width of the colorbar in pixels
+            height: int, optional
+                Height of the colorbar in pixels
+            labelcolor: str, optional
+                Color of the colorbar labels
         """
 
         return colorbar_div(

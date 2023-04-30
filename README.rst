@@ -26,12 +26,7 @@ Pydeck layers for gridded data
 Features
 --------
 
-* TODO
+* Pydeck layers for gridded data
+* Layers for pcolor, vector particle flows, image overlays and contours
+* Use xarray datasets as input data
 
-Credits
--------
-
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage

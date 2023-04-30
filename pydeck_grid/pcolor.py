@@ -21,43 +21,44 @@ class PcolorLayer(GridLayer):
     ):
         """Configures a deck.gl pcolor layer for rendering gridded data on a map. This layer only supports rectilinear grids.
 
-        Parameters
-        ==========
 
+        Args:
+            data : xarray.DataArray
+                Data to be visualized
+            datakeys: dict,
+                Dictionary of data keys to be used for the grid with keys:
+                'x': x coordinate of the grid
+                'y': y coordinate of the grid
+                'z': z coordinate of the grid (optional)
+                'c': scalar value of the grid
+                or
+                'u': u component of the vector field
+                'v': v component of the vector field
+            id : str, default None
+                Unique name for layer
+            opacity: float, default 1.0,
+                Opacity of the layer
+            altitude: float, default 0.0
+                Base altitude of layer in meters
+            zscale: float, default 1.0
+                Multiplier scale for the vertical level of the layer
+            global_wrap: bool, default False
+                Boolean indicating whether the grid is global and should be wrapped around the globe
+            colormap: str or matplotlib.cm.ScalarMappable, default 'turbo'
+                Colormap to use for the grid as a matplotlib predefined colormap name or a matplotlib ScalarMappable
+            vmin: float, default 0.0
+                Minimum value for the colormap (if colormap is a matplotlib colormap name)
+            vmax: float, default 1.0
+                Maximum value for the colormap (if colormap is a matplotlib colormap name)
+            scale: float, default 1.0
+                Multiplier scale for the values of the grid
+            offset: float, default 0.0
+                Offset for the values in the grid
+            precision: int, default 2
+                Number of decimal places to round values to for tooltips
 
-        data : xarray.DataArray
-            Data to be visualized
-        datakeys: dict,
-            Dictionary of data keys to be used for the grid with keys:
-            'x': x coordinate of the grid
-            'y': y coordinate of the grid
-            'z': z coordinate of the grid (optional)
-            'c': scalar value of the grid
-            or
-            'u': u component of the vector field
-            'v': v component of the vector field
-        id : str, default None
-            Unique name for layer
-        opacity: float, default 1.0,
-            Opacity of the layer
-        altitude: float, default 0.0
-            Base altitude of layer in meters
-        zscale: float, default 1.0
-            Multiplier scale for the vertical level of the layer
-        global_wrap: bool, default False
-            Boolean indicating whether the grid is global and should be wrapped around the globe
-        colormap: str or matplotlib.cm.ScalarMappable, default 'turbo'
-            Colormap to use for the grid as a matplotlib predefined colormap name or a matplotlib ScalarMappable
-        vmin: float, default 0.0
-            Minimum value for the colormap (if colormap is a matplotlib colormap name)
-        vmax: float, default 1.0
-            Maximum value for the colormap (if colormap is a matplotlib colormap name)
-        scale: float, default 1.0
-            Multiplier scale for the values of the grid
-        offset: float, default 0.0
-            Offset for the values in the grid
-        precision: int, default 2
-            Number of decimal places to round values to for tooltips
+        Raises:
+            GridLayerException - missing on invalid arguments
         """
 
         if "c" in datakeys:

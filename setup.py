@@ -3,6 +3,7 @@
 
 """The setup script."""
 
+import pydeck_grid
 from setuptools import setup, find_packages
 
 with open("README.rst") as readme_file:
@@ -46,6 +47,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/oceanum-io/pydeck_grid",
-    version="0.1.2",
+    version=pydeck_grid.__version__,
     zip_safe=False,
 )
