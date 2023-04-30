@@ -17,8 +17,7 @@ from .legend import colorbar_div
 pydeck.settings.custom_libraries = [
     {
         "libraryName": "DeckGriddedLayers",
-        # "resourceUri": "https://assets.oceanum.io/packages/deck-gl-grid/bundle.umd.cjs",
-        "resourceUri": "http://localhost:3001/dist/bundle.umd.cjs",
+        "resourceUri": "https://assets.oceanum.io/packages/deck-gl-grid/bundle.umd.cjs",
     }
 ]
 

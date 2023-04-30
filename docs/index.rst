@@ -1,5 +1,5 @@
 Welcome to pydeck-grid's documentation!
-======================================
+=======================================
 
 .. toctree::
    :maxdepth: 2

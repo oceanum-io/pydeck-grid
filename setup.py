@@ -11,7 +11,7 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = []
+requirements = ["pydeck", "xarray"]
 
 setup_requirements = [
     "pytest-runner",
@@ -38,14 +38,14 @@ setup(
     install_requires=requirements,
     license="MIT license",
     long_description=readme + "\n\n" + history,
-    include_package_data=True,
+    include_package_data=False,
     keywords="pydeck gridded xarray",
     name="pydeck-grid",
-    packages=find_packages(include=["pydeck_grid"]),
+    packages=find_packages(exclude=["tests", "docs"]),
     setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/oceanum-io/pydeck_grid",
-    version="0.1.0",
+    version="0.1.2",
     zip_safe=False,
 )

@@ -4,12 +4,16 @@ Usage
 
 To use pydeck-grid in a project::
 
-    import os
     import pydeck as pdk
     import xarray as xr
+    import pydeck_grid
     from pydeck_grid import PcolorLayer
 
-    data = xr.open_dataset(os.path.join(pdk.__file__, "data", "gfs_test.nc"))
+    #This is some sample data included with the library
+    import urllib.request
+    url="https://github.com/oceanum-io/pydeck-grid/raw/main/tests/data/gfs_test.nc"
+    filename, headers = urllib.request.urlretrieve(url)
+    data=xr.open_dataset(filename)
 
     view = pdk.ViewState(
         longitude=float(data.longitude.mean()),
