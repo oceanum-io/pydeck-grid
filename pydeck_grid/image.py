@@ -15,7 +15,7 @@ class ImageLayer(GridLayer):
         """Configures a deck.gl image layer for rendering gridded image data on a map. This layer only supports rectilinear grids.
 
         Args:
-            data : xarray.DataArray
+            data : xarray.DataSet
                 Data to be visualized
             datakeys: dict,
                 Dictionary of data keys to be used for the grid with keys:

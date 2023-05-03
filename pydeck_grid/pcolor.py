@@ -23,7 +23,7 @@ class PcolorLayer(GridLayer):
 
 
         Args:
-            data : xarray.DataArray
+            data : xarray.DataSet
                 Data to be visualized
             datakeys: dict,
                 Dictionary of data keys to be used for the grid with keys:

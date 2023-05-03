@@ -24,7 +24,7 @@ class GContourLayer(GridLayer):
         """Configures a deck.gl contour layer for rendering gridded data on a map. This layer only supports rectilinear grids.
 
         Args:
-            data : xarray.DataArray
+            data : xarray.DataSet
                 Data to be visualized
             datakeys: dict,
                 Dictionary of data keys to be used for the grid with keys:
@@ -63,7 +63,8 @@ class GContourLayer(GridLayer):
                 Width of the contour lines
 
         Raises:
-            GridLayerException - missing on invalid arguments
+            GridLayerException
+                missing or invalid arguments
         """
 
         if "c" in datakeys:
