@@ -18,6 +18,8 @@ class ParticleLayer(GridLayer):
         vmin=0.0,
         vmax=1.0,
         speed=0.5,
+        size=3,
+        length=12,
         direction="nautical_from",
         **kwargs,
     ):
@@ -59,6 +61,10 @@ class ParticleLayer(GridLayer):
                 Offset for the values in the grid
             speed: float, default 0.5
                 Speed of particles
+            size: int, default 3
+                Size of particles
+            length: int, default 12
+                Length of particle tail
             direction: string, default: "nautical_from"
                 Type of the vector field direction. One of "nautical_from" (compass degrees), "nautical_to" (compass degrees), "cartesian_radians"
 
