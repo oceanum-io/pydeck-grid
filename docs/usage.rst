@@ -62,8 +62,9 @@ The ``data`` argument is always a xarray Dataset which must have coordinates or 
 
 The ``x``, ``y`` and ``z`` coordinates must be one dimensional. If the data variables have additional dimensions, the first member of each other dimension will be used.
 
-You can use unstructured grids where the coordinates are provided for each point in the grid and must share a common grid node dimension. The data variables must have the same dimension as the coordinates and as with regular gridded datasets, the first member of each other dimension will be used. This is an example of a unstructured grid:
+You can use unstructured grids where the coordinates are provided for each point in the grid and must share a common grid node dimension. The data variables must have the same dimension as the coordinates and as with regular gridded datasets, the first member of each other dimension will be used. 
 
+This is an example of a unstructured grid::
 
     import tempfile
     import pydeck as pdk
@@ -126,3 +127,5 @@ You can use unstructured grids where the coordinates are provided for each point
     
     fname = tempfile.mktemp(suffix=".html")
     r.to_html(fname, True)
+
+Note that a transparent PcolorLayer has been used to provide the mouseover tooltips.
