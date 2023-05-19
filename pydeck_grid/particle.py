@@ -23,7 +23,7 @@ class ParticleLayer(GridLayer):
         direction="nautical_from",
         **kwargs,
     ):
-        """Configures a deck.gl particle layer for rendering gridded data on a map. This layer only supports rectilinear grids.
+        """Configures a deck.gl particle layer for rendering gridded data as moving particles or meshes.
 
         Args:
             data : xarray.DataArray
@@ -102,6 +102,7 @@ class ParticleLayer(GridLayer):
             vmax=vmax,
             speed=speed,
             direction=direction,
+            pickable=False,
             **kwargs,
         )
 
@@ -217,5 +218,6 @@ class PartmeshLayer(GridLayer):
             speed=speed,
             animate=animate,
             mesh=mesh,
+            pickable=False,
             **kwargs,
         )

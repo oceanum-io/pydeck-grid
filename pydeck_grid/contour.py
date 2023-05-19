@@ -21,7 +21,7 @@ class GContourLayer(GridLayer):
         linewidth=1,
         **kwargs,
     ):
-        """Configures a deck.gl contour layer for rendering gridded data on a map. This layer only supports rectilinear grids.
+        """Configures a deck.gl contour layer for rendering gridded data. This layer only supports rectilinear grids.
 
         Args:
             data : xarray.DataSet
@@ -94,5 +94,6 @@ class GContourLayer(GridLayer):
             vmin=vmin,
             vmax=vmax,
             levels=levels,
+            pickable=False,
             **kwargs,
         )

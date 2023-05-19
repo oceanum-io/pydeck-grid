@@ -12,7 +12,7 @@ class ImageLayer(GridLayer):
         zscale=1.0,
         global_wrap=False,
     ):
-        """Configures a deck.gl image layer for rendering gridded image data on a map. This layer only supports rectilinear grids.
+        """Configures a deck.gl image layer for rendering gridded image data. This layer only supports rectilinear grids.
 
         Args:
             data : xarray.DataSet
@@ -61,4 +61,5 @@ class ImageLayer(GridLayer):
             zscale=zscale,
             global_wrap=global_wrap,
             datakeys=datakeys,
+            pickable=False,
         )

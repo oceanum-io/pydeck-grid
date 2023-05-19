@@ -19,7 +19,7 @@ class PcolorLayer(GridLayer):
         precision=2,
         **kwargs,
     ):
-        """Configures a deck.gl pcolor layer for rendering gridded data on a map. This layer only supports rectilinear grids.
+        """Configures a deck.gl pcolor layer for rendering gridded data. This layer is pickable with the scalar value available for the tooltip.
 
 
         Args:
