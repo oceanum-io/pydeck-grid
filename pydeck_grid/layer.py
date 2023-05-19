@@ -94,26 +94,31 @@ class GridLayer(Layer):
 
         if not isinstance(data, xr.Dataset):
             raise GridLayerException("Data must be an xarray DataSet")
-        if datakeys["x"] not in data.coords:
+        if datakeys["x"] not in data.variables:
             raise GridLayerException(f"x coordinate {datakeys['x']} not in data")
-        if datakeys["y"] not in data.coords:
+        if datakeys["y"] not in data.variables:
             raise GridLayerException(f"y coordinate {datakeys['y']} not in data")
-        if len(data.coords[datakeys["x"]].dims) > 1:
+        if len(data.variables[datakeys["x"]].dims) > 1:
             raise GridLayerException(f"x coordinate {datakeys['x']} is not 1D")
-        if len(data.coords[datakeys["y"]].dims) > 1:
+        if len(data.variables[datakeys["y"]].dims) > 1:
             raise GridLayerException(f"y coordinate {datakeys['y']} is not 1D")
 
         self.grid_colormap = GridColormap(colormap, vmin, vmax) if colormap else None
 
+        gridded = datakeys["x"] in data.coords and datakeys["y"] in data.coords
+
+        coord_dims = set(
+            data.variables[datakeys["x"]].dims + data.variables[datakeys["y"]].dims
+        )
+
         # Take first 2D grid from the data array
         ndims = len(data.dims)
-        if ndims < 2:
-            raise GridLayerException("Layer data must be at least 2D")
+        if gridded and ndims < 2:
+            raise GridLayerException("Gridded layer data must be at least 2D")
         indexer = {
             i: 0
             for i in data.dims
-            if i
-            not in [datakeys["x"], datakeys["y"]] + ["b" in datakeys and datakeys["b"]]
+            if i not in list(coord_dims) + ["b" in datakeys and datakeys["b"]]
         }
         griddata = GridLayerData(data.isel(**indexer, drop=True), datakeys)
 
@@ -134,6 +139,7 @@ class GridLayer(Layer):
         width=200,
         height=40,
         labelcolor="white",
+        style=None,
     ):
         """Return a colorbar for the layer to use in the pydeck description
 
@@ -148,6 +154,8 @@ class GridLayer(Layer):
                 Height of the colorbar in pixels
             labelcolor: str, optional
                 Color of the colorbar labels
+            style: dict, optional
+                Additional style properties to apply to the colorbar
         """
 
         return colorbar_div(
@@ -157,4 +165,5 @@ class GridLayer(Layer):
             width=width,
             height=height,
             labelcolor=labelcolor,
+            style=style or {},
         )

@@ -9,6 +9,7 @@ def colorbar_div(
     width=200,
     height=50,
     labelcolor="white",
+    style={},
 ):
     grads = labels or colormap["domain"]
     labelwidth = int(width / (len(grads) + int(units is not None)))
@@ -30,19 +31,20 @@ def colorbar_div(
         colorString.append(f"rgb({rgb[0]},{rgb[1]},{rgb[2]})")
     ticks = ([units] if units else []) + grads
     labelsize = min(int(width / 2 / len(grads)), int(height / 1.5))
+    divstyle = {
+        "width": f"{width}px",
+        "height": f"{height}px",
+        "border-radius": "5px",
+        "background": f"linear-gradient(to right, {','.join(colorString)})",
+        "font-size": f"{labelsize}px",
+        "display": "flex",
+        "align-items": "center",
+        "font-family": "sans-serif",
+    }
+    divstyle.update(style)
+    stylestr = ";".join([f"{k}:{v}" for k, v in divstyle.items()])
     colorbar_template = jinja2.Template(
-        """
-    <div
-      style="
-        width: {{ width }}px;
-        height: {{ height }}px;
-        border-radius: 5px;
-        background: linear-gradient(to right, {{ ",".join(colorString) }});
-        font-size: {{ labelsize }}px;
-        display: flex;
-        align-items: center;
-      "
-    >
+        """<div style=" {{ stylestr }} ">
         {% for tick in ticks %}
         <span
           style="
@@ -66,5 +68,6 @@ def colorbar_div(
         labelsize=labelsize,
         labelwidth=labelwidth,
         labelcolor=labelcolor,
+        stylestr=stylestr,
     )
     return html_str
