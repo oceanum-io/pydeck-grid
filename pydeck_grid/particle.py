@@ -1,3 +1,4 @@
+from pydeck.types import String
 from .layer import GridLayer, GridLayerException, sanitize_color
 
 
@@ -20,7 +21,7 @@ class ParticleLayer(GridLayer):
         speed=0.5,
         size=3,
         length=12,
-        direction="nautical_from",
+        direction="NAUTICAL_FROM",
         **kwargs,
     ):
         """Configures a deck.gl particle layer for rendering gridded data as moving particles or meshes.
@@ -66,8 +67,8 @@ class ParticleLayer(GridLayer):
                 Size of particles
             length: int, default 12
                 Length of particle tail
-            direction: string, default: "nautical_from"
-                Type of the vector field direction. One of "nautical_from" (compass degrees), "nautical_to" (compass degrees), "cartesian_radians"
+            direction: string, default: "NAUTICAL_FROM"
+                Type of the vector field direction. One of "NAUTICAL_FROM" (compass degrees), "NAUTICAL_TO" (compass degrees), "CARTESIAN_RADIANS"
 
         Raises:
             GridLayerException - missing on invalid arguments
@@ -87,9 +88,9 @@ class ParticleLayer(GridLayer):
                 raise GridLayerException(
                     f"magnitude direction {datakeys['d']} not in data"
                 )
-            if direction not in ["nautical_from", "nautical_to", "cartesian_radians"]:
+            if direction not in ["NAUTICAL_FROM", "NAUTICAL_TO", "CARTESIAN_RADIANS"]:
                 raise GridLayerException(
-                    "direction must be one of 'nautical_from', 'nautical_to', 'cartesian_radians'"
+                    "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
                 )
         else:
             raise GridLayerException(
@@ -112,7 +113,9 @@ class ParticleLayer(GridLayer):
             vmin=vmin,
             vmax=vmax,
             speed=speed,
-            direction=direction,
+            length=length,
+            size=size,
+            direction=String(direction),
             pickable=False,
             **kwargs,
         )
@@ -137,7 +140,7 @@ class PartmeshLayer(GridLayer):
         speed=0.5,
         animate=True,
         mesh={"shape": "quiver", "width": 1, "length": 4},
-        direction="nautical_from",
+        direction="NAUTICAL_FROM",
         **kwargs,
     ):
         """Configures a deck.gl particle mesh layer for rendering gridded data on a map. This layer only supports rectilinear grids.
@@ -182,6 +185,8 @@ class PartmeshLayer(GridLayer):
                 Offset for the values in the grid
             speed: float, default 0.5
                 Speed of particles
+            direction: string, default: "NAUTICAL_FROM"
+                Type of the vector field direction. One of "NAUTICAL_FROM" (compass degrees), "NAUTICAL_TO" (compass degrees), "CARTESIAN_RADIANS"
             animate: bool, default True
                 Animate meshes
             mesh: str or dict, default {"shape": "quiver", "width": 1, "length": 4}
@@ -207,9 +212,9 @@ class PartmeshLayer(GridLayer):
                 raise GridLayerException(
                     f"magnitude direction {datakeys['d']} not in data"
                 )
-            if direction not in ["nautical_from", "nautical_to", "cartesian_radians"]:
+            if direction not in ["NAUTICAL_FROM", "NAUTICAL_TO", "CARTESIAN_RADIANS"]:
                 raise GridLayerException(
-                    "direction must be one of 'nautical_from', 'nautical_to', 'cartesian_radians'"
+                    "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
                 )
         else:
             raise GridLayerException(
@@ -248,5 +253,6 @@ class PartmeshLayer(GridLayer):
             animate=animate,
             mesh=mesh,
             pickable=False,
+            direction=String(direction),
             **kwargs,
         )
