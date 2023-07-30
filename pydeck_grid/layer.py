@@ -2,17 +2,15 @@ import orjson
 
 import xarray as xr
 import numpy as np
-from matplotlib.cm import ScalarMappable, get_cmap
-from matplotlib.colors import Normalize, rgb2hex, hex2color
-
-
+from matplotlib.colors import rgb2hex, hex2color
 from pydeck.bindings.layer import Layer
 from pydeck.types.base import PydeckType
 from pydeck.bindings.json_tools import JSONMixin, default_serialize
 
 import pydeck
 
-from .legend import colorbar_div
+from .colormap import GridColormap
+from .legend import Colorbar
 
 pydeck.settings.custom_libraries = [
     {
@@ -52,22 +50,6 @@ class GridLayerData(dict):
             else:
                 _data["data_vars"][v] = {"data": data.data_vars[v].values}
         super().__init__(_data)
-
-
-class GridColormap(dict):
-    def __init__(self, colormap, vmin, vmax):
-        if colormap and isinstance(colormap, str):
-            colormap = ScalarMappable(Normalize(vmin, vmax), get_cmap(colormap))
-        if not isinstance(colormap, ScalarMappable):
-            raise GridLayerException(
-                "colormap must be a matplotlib colormap name or a ScalarMappable"
-            )
-        super().__init__(
-            {
-                "scale": [rgb2hex(c) for c in colormap.cmap.colors],
-                "domain": [vmin, vmax],
-            }
-        )
 
 
 class GridLayerException(Exception):
@@ -157,11 +139,12 @@ class GridLayer(Layer):
             style: dict, optional
                 Additional style properties to apply to the colorbar
         """
-
-        return colorbar_div(
+        colorbar_instance = Colorbar(
             self.grid_colormap,
             labels=labels,
             units=units,
+        )
+        return colorbar_instance.to_html(
             width=width,
             height=height,
             labelcolor=labelcolor,

@@ -56,11 +56,18 @@ def test_pcolor_vector(data, view):
     assert isinstance(layer, pdk.Layer)
     r = pdk.Deck(
         layer,
+        views=[pdk.View(type="MapView", controller=True, repeat=True)],
         initial_view_state=view,
         tooltip={
             "html": "<b>Current speed:</b> {value} kts",
             "style": {"backgroundColor": "steelblue", "color": "white"},
         },
+        description=layer.colorbar(
+            labels=[0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0],
+            units="kts",
+            width=400,
+            height=50,
+        ),
     )
     fname = tempfile.mktemp(suffix=".html")
     r.to_html(fname, True)
@@ -73,7 +80,19 @@ def test_particles_vector(data, view):
         "u": "us",
         "v": "vs",
     }
-    layer = ParticleLayer(
+    layer1 = PcolorLayer(
+        data,
+        datakeys,
+        id="test",
+        colormap="turbo",
+        vmin=0,
+        vmax=2,
+        scale=1.92,
+        pickable=True,
+        precision=2,
+        opacity=0,
+    )
+    layer2 = ParticleLayer(
         data,
         datakeys,
         id="test",
@@ -82,11 +101,20 @@ def test_particles_vector(data, view):
         vmax=2,
         scale=1.92,
     )
-    assert isinstance(layer, pdk.Layer)
+    assert isinstance(layer1, pdk.Layer)
     r = pdk.Deck(
-        layer,
+        [layer1, layer2],
         initial_view_state=view,
-        tooltip=True,
+        tooltip={
+            "html": "<b>Current speed:</b> {value} kts",
+            "style": {"backgroundColor": "steelblue", "color": "white"},
+        },
+        description=layer2.colorbar(
+            labels=[0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0],
+            units="kts",
+            width=400,
+            height=50,
+        ),
     )
     fname = tempfile.mktemp(suffix=".html")
     r.to_html(fname, True)
@@ -113,7 +141,16 @@ def test_partmesh_vector(data, view):
     r = pdk.Deck(
         layer,
         initial_view_state=view,
-        tooltip=True,
+        tooltip={
+            "html": "<b>Current speed:</b> {value} kts",
+            "style": {"backgroundColor": "steelblue", "color": "white"},
+        },
+        description=layer.colorbar(
+            labels=[0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0],
+            units="kts",
+            width=400,
+            height=50,
+        ),
     )
     fname = tempfile.mktemp(suffix=".html")
     r.to_html(fname, True)
@@ -147,7 +184,16 @@ def test_multi_layer(data, view):
     r = pdk.Deck(
         [layer2, layer1],
         initial_view_state=view,
-        tooltip=True,
+        tooltip={
+            "html": "<b>Current speed:</b> {value} kts",
+            "style": {"backgroundColor": "steelblue", "color": "white"},
+        },
+        description=layer2.colorbar(
+            labels=[0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0],
+            units="kts",
+            width=400,
+            height=50,
+        ),
     )
     fname = tempfile.mktemp(suffix=".html")
     r.to_html(fname, True)

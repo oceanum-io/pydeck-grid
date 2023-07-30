@@ -28,14 +28,15 @@ class ParticleLayer(GridLayer):
         Args:
             data : xarray.DataArray
                 Data to be visualized
-            datakeys: dict,
-                Dictionary of data keys to be used for the grid with keys:
+             Dictionary of data keys to be used for the grid with keys:
                 'x': x coordinate of the grid
                 'y': y coordinate of the grid
                 'z': z coordinate of the grid (optional)
+                and one of:
                 'u': u component of the vector field
                 'v': v component of the vector field
-                'm': magnitude of the vector field
+                or:
+                'm': magnitude of the vector field (optional - defaul 1.0)
                 'd': direction of the vector field
             id : str, default None
                 Unique name for layer
@@ -77,12 +78,22 @@ class ParticleLayer(GridLayer):
                 raise GridLayerException(
                     f"vector values {datakeys['u']},{datakeys['v']} not in data"
                 )
+        elif "d" in datakeys:
+            if datakeys["d"] not in data:
+                raise GridLayerException(
+                    f"direction values {datakeys['m']} not in data"
+                )
+            if "m" in datakeys and datakeys["m"] not in data:
+                raise GridLayerException(
+                    f"magnitude direction {datakeys['d']} not in data"
+                )
+            if direction not in ["nautical_from", "nautical_to", "cartesian_radians"]:
+                raise GridLayerException(
+                    "direction must be one of 'nautical_from', 'nautical_to', 'cartesian_radians'"
+                )
         else:
-            raise GridLayerException("datakeys must contain 'u' and 'v'")
-
-        if direction not in ["nautical_from", "nautical_to", "cartesian_radians"]:
             raise GridLayerException(
-                "direction must be one of 'nautical_from', 'nautical_to', 'cartesian_radians'"
+                "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
             )
 
         super().__init__(
@@ -126,6 +137,7 @@ class PartmeshLayer(GridLayer):
         speed=0.5,
         animate=True,
         mesh={"shape": "quiver", "width": 1, "length": 4},
+        direction="nautical_from",
         **kwargs,
     ):
         """Configures a deck.gl particle mesh layer for rendering gridded data on a map. This layer only supports rectilinear grids.
@@ -138,10 +150,12 @@ class PartmeshLayer(GridLayer):
                 'x': x coordinate of the grid
                 'y': y coordinate of the grid
                 'z': z coordinate of the grid (optional)
-                'c': scalar value of the grid
-                or
+                and one of:
                 'u': u component of the vector field
                 'v': v component of the vector field
+                or:
+                'm': magnitude of the vector field (optional - defaul 1.0)
+                'd': direction of the vector field
             id : str, default None
                 Unique name for layer
             opacity: float, default 1.0,
@@ -184,8 +198,23 @@ class PartmeshLayer(GridLayer):
                 raise GridLayerException(
                     f"vector values {datakeys['u']},{datakeys['v']} not in data"
                 )
+        elif "d" in datakeys:
+            if datakeys["d"] not in data:
+                raise GridLayerException(
+                    f"direction values {datakeys['m']} not in data"
+                )
+            if "m" in datakeys and datakeys["m"] not in data:
+                raise GridLayerException(
+                    f"magnitude direction {datakeys['d']} not in data"
+                )
+            if direction not in ["nautical_from", "nautical_to", "cartesian_radians"]:
+                raise GridLayerException(
+                    "direction must be one of 'nautical_from', 'nautical_to', 'cartesian_radians'"
+                )
         else:
-            raise GridLayerException("datakeys must contain 'u' and 'v'")
+            raise GridLayerException(
+                "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
+            )
 
         if isinstance(mesh, str):
             mesh = {"shape": mesh, "width": 1, "length": 4}
