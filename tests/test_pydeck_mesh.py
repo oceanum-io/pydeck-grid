@@ -135,6 +135,7 @@ def test_partmesh_vector(data, view):
         vmin=0,
         vmax=2,
         scale=1.92,
+        npart=100,
         mesh={"shape": "quiver"},
     )
     assert isinstance(layer, pdk.Layer)

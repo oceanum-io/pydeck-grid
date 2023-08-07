@@ -18,7 +18,8 @@ class ParticleLayer(GridLayer):
         offset=0.0,
         vmin=0.0,
         vmax=1.0,
-        speed=0.5,
+        speed=1.0,
+        npart=1000,
         size=3,
         length=12,
         direction="NAUTICAL_FROM",
@@ -61,8 +62,10 @@ class ParticleLayer(GridLayer):
                 Multiplier scale for the values of the grid
             offset: float, default 0.0
                 Offset for the values in the grid
-            speed: float, default 0.5
+            speed: float, default 1.0
                 Speed of particles
+            npart: int, default 1000
+                Number of particles
             size: int, default 3
                 Size of particles
             length: int, default 12
@@ -113,6 +116,7 @@ class ParticleLayer(GridLayer):
             vmin=vmin,
             vmax=vmax,
             speed=speed,
+            npart=npart,
             length=length,
             size=size,
             direction=String(direction),
@@ -137,7 +141,8 @@ class PartmeshLayer(GridLayer):
         offset=0.0,
         vmin=0.0,
         vmax=1.0,
-        speed=0.5,
+        speed=1.0,
+        npart=500,
         animate=True,
         mesh={"shape": "quiver", "width": 1, "length": 4},
         direction="NAUTICAL_FROM",
@@ -183,8 +188,10 @@ class PartmeshLayer(GridLayer):
                 Multiplier scale for the values of the grid
             offset: float, default 0.0
                 Offset for the values in the grid
-            speed: float, default 0.5
-                Speed of particles
+            speed: float, default 1.0
+                Speed of mesh particles
+            npart: int, default 500
+                Number of mesh particles
             direction: string, default: "NAUTICAL_FROM"
                 Type of the vector field direction. One of "NAUTICAL_FROM" (compass degrees), "NAUTICAL_TO" (compass degrees), "CARTESIAN_RADIANS"
             animate: bool, default True
@@ -250,6 +257,7 @@ class PartmeshLayer(GridLayer):
             vmin=vmin,
             vmax=vmax,
             speed=speed,
+            npart=npart,
             animate=animate,
             mesh=mesh,
             pickable=False,
