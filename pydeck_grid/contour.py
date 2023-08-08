@@ -46,7 +46,7 @@ class GContourLayer(GridLayer):
             global_wrap: bool, default False
                 Boolean indicating whether the grid is global and should be wrapped around the globe
             color: str, default '#999999'
-                Uniform color of contour lines
+                Uniform color of contour lines, only takes effect if colormap is set to None
             colormap: str or matplotlib.cm.ScalarMappable, default 'turbo'
                 Colormap to use for the grid as a matplotlib predefined colormap name or a matplotlib ScalarMappable
             vmin: float, default 0.0
