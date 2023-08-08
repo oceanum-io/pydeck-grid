@@ -95,5 +95,6 @@ class GContourLayer(GridLayer):
             vmax=vmax,
             levels=levels,
             pickable=False,
+            linewidth=linewidth,
             **kwargs,
         )
