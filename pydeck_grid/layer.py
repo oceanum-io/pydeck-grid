@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib.colors import rgb2hex, hex2color
 from pydeck.bindings.layer import Layer
 from pydeck.types.base import PydeckType
-from pydeck.bindings.json_tools import JSONMixin, default_serialize
+from pydeck.bindings.json_tools import JSONMixin, IGNORE_KEYS, lower_camel_case_keys
 
 import pydeck
 
@@ -25,6 +25,23 @@ def sanitize_color(color):
         if color.startswith("#"):
             color = [255 * c for c in hex2color(color)]
     return color
+
+
+# Patch pydeck to use orjson for numpy arrays
+def default_serialize(o, remap_function=lower_camel_case_keys):
+    """Default method for rendering JSON from a dictionary"""
+    if issubclass(type(o), PydeckType):
+        return repr(o)
+    elif isinstance(o, np.ndarray):
+        return o
+    attrs = vars(o)
+    attrs = {k: v for k, v in attrs.items() if v is not None}
+    for ignore_attr in IGNORE_KEYS:
+        if attrs.get(ignore_attr):
+            del attrs[ignore_attr]
+    if remap_function:
+        remap_function(attrs)
+    return attrs
 
 
 def orjson_serializer(serializable):
