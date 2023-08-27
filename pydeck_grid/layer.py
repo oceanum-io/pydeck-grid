@@ -33,7 +33,10 @@ def default_serialize(o, remap_function=lower_camel_case_keys):
     if issubclass(type(o), PydeckType):
         return repr(o)
     elif isinstance(o, np.ndarray):
-        return o
+        if o.ndim:
+            return o
+        else:
+            return o.item()
     attrs = vars(o)
     attrs = {k: v for k, v in attrs.items() if v is not None}
     for ignore_attr in IGNORE_KEYS:
