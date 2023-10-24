@@ -27,6 +27,11 @@ Layer Classes
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: pydeck_grid.mask
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Grid Layer Base
 -------------------------
