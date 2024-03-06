@@ -56,21 +56,28 @@ class PcolorLayer(GridLayer):
                 Offset for the values in the grid
             precision: int, default 2
                 Number of decimal places to round values to for tooltips
+            **kwargs: dict
+                Additional keyword arguments for the deck.gl layer
 
         Raises:
             GridLayerException - missing on invalid arguments
         """
 
-        if "c" in datakeys:
-            if datakeys["c"] not in data:
-                raise GridLayerException(f"scalar value {datakeys['c']} not in data")
-        elif "u" in datakeys:
-            if datakeys["u"] not in data or datakeys["v"] not in data:
+        if kwargs.get("visible", True):
+            if "c" in datakeys:
+                if datakeys["c"] not in data:
+                    raise GridLayerException(
+                        f"scalar value {datakeys['c']} not in data"
+                    )
+            elif "u" in datakeys:
+                if datakeys["u"] not in data or datakeys["v"] not in data:
+                    raise GridLayerException(
+                        f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    )
+            else:
                 raise GridLayerException(
-                    f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    "datakeys must contain either 'c' or 'u' and 'v'"
                 )
-        else:
-            raise GridLayerException("datakeys must contain either 'c' or 'u' and 'v'")
 
         super().__init__(
             type="PcolorLayer",

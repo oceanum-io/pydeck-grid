@@ -18,6 +18,9 @@ class MaskLayer(Layer):
                 URL of the masking tileset. Must be a valid URL to a vector tile tileset following the same conventions as the deck.gl MVTLayer.
                 All of the tileset's features will be used to mask the data layer.
 
+            invert : bool, default False
+                Invert the mask. Useful for masking land instead of water.
+
 
         Raises:
             GridLayerException

@@ -72,33 +72,39 @@ class ParticleLayer(GridLayer):
                 Length of particle tail
             direction: string, default: "NAUTICAL_FROM"
                 Type of the vector field direction. One of "NAUTICAL_FROM" (compass degrees), "NAUTICAL_TO" (compass degrees), "CARTESIAN_RADIANS"
+            **kwargs: dict
+                Additional keyword arguments for the deck.gl layer
 
         Raises:
             GridLayerException - missing on invalid arguments
         """
-
-        if "u" in datakeys and "v" in datakeys:
-            if datakeys["u"] not in data or datakeys["v"] not in data:
+        if kwargs.get("visible", True):
+            if "u" in datakeys and "v" in datakeys:
+                if datakeys["u"] not in data or datakeys["v"] not in data:
+                    raise GridLayerException(
+                        f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    )
+            elif "d" in datakeys:
+                if datakeys["d"] not in data:
+                    raise GridLayerException(
+                        f"direction values {datakeys['m']} not in data"
+                    )
+                if "m" in datakeys and datakeys["m"] not in data:
+                    raise GridLayerException(
+                        f"magnitude direction {datakeys['d']} not in data"
+                    )
+                if direction not in [
+                    "NAUTICAL_FROM",
+                    "NAUTICAL_TO",
+                    "CARTESIAN_RADIANS",
+                ]:
+                    raise GridLayerException(
+                        "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
+                    )
+            else:
                 raise GridLayerException(
-                    f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
                 )
-        elif "d" in datakeys:
-            if datakeys["d"] not in data:
-                raise GridLayerException(
-                    f"direction values {datakeys['m']} not in data"
-                )
-            if "m" in datakeys and datakeys["m"] not in data:
-                raise GridLayerException(
-                    f"magnitude direction {datakeys['d']} not in data"
-                )
-            if direction not in ["NAUTICAL_FROM", "NAUTICAL_TO", "CARTESIAN_RADIANS"]:
-                raise GridLayerException(
-                    "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
-                )
-        else:
-            raise GridLayerException(
-                "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
-            )
 
         super().__init__(
             type="ParticleLayer",
@@ -204,29 +210,33 @@ class PartmeshLayer(GridLayer):
         Raises:
             GridLayerException - missing on invalid arguments
         """
-
-        if "u" in datakeys and "v" in datakeys:
-            if datakeys["u"] not in data or datakeys["v"] not in data:
+        if kwargs.get("visible", True):
+            if "u" in datakeys and "v" in datakeys:
+                if datakeys["u"] not in data or datakeys["v"] not in data:
+                    raise GridLayerException(
+                        f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    )
+            elif "d" in datakeys:
+                if datakeys["d"] not in data:
+                    raise GridLayerException(
+                        f"direction values {datakeys['m']} not in data"
+                    )
+                if "m" in datakeys and datakeys["m"] not in data:
+                    raise GridLayerException(
+                        f"magnitude direction {datakeys['d']} not in data"
+                    )
+                if direction not in [
+                    "NAUTICAL_FROM",
+                    "NAUTICAL_TO",
+                    "CARTESIAN_RADIANS",
+                ]:
+                    raise GridLayerException(
+                        "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
+                    )
+            else:
                 raise GridLayerException(
-                    f"vector values {datakeys['u']},{datakeys['v']} not in data"
+                    "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
                 )
-        elif "d" in datakeys:
-            if datakeys["d"] not in data:
-                raise GridLayerException(
-                    f"direction values {datakeys['m']} not in data"
-                )
-            if "m" in datakeys and datakeys["m"] not in data:
-                raise GridLayerException(
-                    f"magnitude direction {datakeys['d']} not in data"
-                )
-            if direction not in ["NAUTICAL_FROM", "NAUTICAL_TO", "CARTESIAN_RADIANS"]:
-                raise GridLayerException(
-                    "direction must be one of 'NAUTICAL_FROM', 'NAUTICAL_TO', 'CARTESIAN_RADIANS'"
-                )
-        else:
-            raise GridLayerException(
-                "datakeys must contain 'u' and 'v' or 'd' and 'm'(optional)"
-            )
 
         if isinstance(mesh, str):
             mesh = {"shape": mesh, "width": 1, "length": 4}

@@ -4,7 +4,7 @@
 
 __author__ = """Oceanum Developers"""
 __email__ = "developers@oceanum.science"
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 from .pcolor import PcolorLayer
 from .particle import ParticleLayer, PartmeshLayer

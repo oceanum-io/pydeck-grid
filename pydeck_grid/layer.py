@@ -94,35 +94,38 @@ class GridLayer(Layer):
         here will be specific to the particular deck.gl grid layer that you are choosing to use.
         """
 
-        if not isinstance(data, xr.Dataset):
-            raise GridLayerException("Data must be an xarray DataSet")
-        if datakeys["x"] not in data.variables:
-            raise GridLayerException(f"x coordinate {datakeys['x']} not in data")
-        if datakeys["y"] not in data.variables:
-            raise GridLayerException(f"y coordinate {datakeys['y']} not in data")
-        if len(data.variables[datakeys["x"]].dims) > 1:
-            raise GridLayerException(f"x coordinate {datakeys['x']} is not 1D")
-        if len(data.variables[datakeys["y"]].dims) > 1:
-            raise GridLayerException(f"y coordinate {datakeys['y']} is not 1D")
-
         self.grid_colormap = GridColormap(colormap, vmin, vmax) if colormap else None
 
-        gridded = datakeys["x"] in data.coords and datakeys["y"] in data.coords
+        if kwargs.get("visible", True):
+            if not isinstance(data, xr.Dataset):
+                raise GridLayerException("Data must be an xarray DataSet")
+            if datakeys["x"] not in data.variables:
+                raise GridLayerException(f"x coordinate {datakeys['x']} not in data")
+            if datakeys["y"] not in data.variables:
+                raise GridLayerException(f"y coordinate {datakeys['y']} not in data")
+            if len(data.variables[datakeys["x"]].dims) > 1:
+                raise GridLayerException(f"x coordinate {datakeys['x']} is not 1D")
+            if len(data.variables[datakeys["y"]].dims) > 1:
+                raise GridLayerException(f"y coordinate {datakeys['y']} is not 1D")
 
-        coord_dims = set(
-            data.variables[datakeys["x"]].dims + data.variables[datakeys["y"]].dims
-        )
+            gridded = datakeys["x"] in data.coords and datakeys["y"] in data.coords
 
-        # Take first 2D grid from the data array
-        ndims = len(data.dims)
-        if gridded and ndims < 2:
-            raise GridLayerException("Gridded layer data must be at least 2D")
-        indexer = {
-            i: 0
-            for i in data.dims
-            if i not in list(coord_dims) + ["b" in datakeys and datakeys["b"]]
-        }
-        griddata = GridLayerData(data.isel(**indexer, drop=True), datakeys)
+            coord_dims = set(
+                data.variables[datakeys["x"]].dims + data.variables[datakeys["y"]].dims
+            )
+
+            # Take first 2D grid from the data array
+            ndims = len(data.dims)
+            if gridded and ndims < 2:
+                raise GridLayerException("Gridded layer data must be at least 2D")
+            indexer = {
+                i: 0
+                for i in data.dims
+                if i not in list(coord_dims) + ["b" in datakeys and datakeys["b"]]
+            }
+            griddata = GridLayerData(data.isel(**indexer, drop=True), datakeys)
+        else:
+            griddata = None
 
         super().__init__(
             type,
