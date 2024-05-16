@@ -1,12 +1,14 @@
-from matplotlib.cm import ScalarMappable, get_cmap
+import matplotlib.cm as cmap
 from matplotlib.colors import Normalize, rgb2hex, hex2color
 
 
 class GridColormap(dict):
     def __init__(self, colormap, vmin, vmax):
         if colormap and isinstance(colormap, str):
-            colormap = ScalarMappable(Normalize(vmin, vmax), get_cmap(colormap))
-        if not isinstance(colormap, ScalarMappable):
+            colormap = cmap.ScalarMappable(
+                Normalize(vmin, vmax), getattr(cmap, colormap, "jet")
+            )
+        if not isinstance(colormap, cmap.ScalarMappable):
             raise ("colormap must be a matplotlib colormap name or a ScalarMappable")
         super().__init__(
             {
