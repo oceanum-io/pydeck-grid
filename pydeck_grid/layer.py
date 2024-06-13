@@ -34,7 +34,7 @@ def default_serialize(o, remap_function=lower_camel_case_keys):
         return repr(o)
     elif isinstance(o, np.ndarray):
         if o.ndim:
-            return o
+            return o.tolist()
         else:
             return o.item()
     attrs = vars(o)
