@@ -13,28 +13,22 @@ class Colorbar:
         self.labels = labels
         self.units = units
 
-    def to_html(
-        self,
-        width=200,
-        height=50,
-        labelcolor="white",
-        style={},
-    ):
+    def to_html(self, width=200, height=50, labelcolor="white", style={}):
         if self.colormap is None:
             return "<div></div>"
         grads = self.labels or self.colormap["domain"]
         labelwidth = int(width / (len(grads) + int(self.units is not None)))
         gradient = [grads[0], grads[0], grads[0]] if self.units else [grads[0]]
-        if len(self.colormap["scale"]) == len(self.colormap["domain"]):
-            lscm = LinearSegmentedColormap.from_list(
-                "colormap", zip(self.colormap["scale"], self.colormap["domain"])
-            )
-            norm = lambda x: x
-        else:
-            lscm = ListedColormap(self.colormap["scale"])
-            norm = Normalize(
-                vmin=self.colormap["domain"][0], vmax=self.colormap["domain"][-1]
-            )
+        # if len(self.colormap["scale"]) == len(self.colormap["domain"]):
+        #     lscm = LinearSegmentedColormap.from_list(
+        #         "colormap", list(zip(self.colormap["domain"], self.colormap["scale"]))
+        #     )
+        #     norm = lambda x: x
+        # else:
+        lscm = ListedColormap(self.colormap["scale"])
+        norm = Normalize(
+            vmin=self.colormap["domain"][0], vmax=self.colormap["domain"][-1]
+        )
         for i, l in enumerate(grads):
             i0 = i if i < len(grads) - 1 else i - 1
             gradient = gradient + [l, 0.5 * (l + grads[i0 + 1])]
