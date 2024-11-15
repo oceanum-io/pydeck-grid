@@ -108,16 +108,16 @@ class GridLayer(Layer):
             if len(data.variables[datakeys["y"]].dims) > 1:
                 raise GridLayerException(f"y coordinate {datakeys['y']} is not 1D")
 
-            gridded = datakeys["x"] in data.coords and datakeys["y"] in data.coords
-
             coord_dims = set(
                 data.variables[datakeys["x"]].dims + data.variables[datakeys["y"]].dims
             )
 
             # Take first 2D grid from the data array
             ndims = len(data.dims)
-            if gridded and ndims < 2:
-                raise GridLayerException("Gridded layer data must be at least 2D")
+            if len(coord_dims) > ndims:
+                raise GridLayerException(
+                    "Gridded layer data coordinates have more dimensions than the data array"
+                )
             indexer = {
                 i: 0
                 for i in data.dims
