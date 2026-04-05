@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydeck-grid"
+dynamic = ["version"]
+description = "Pydeck layers for gridded data"
+authors = [{name = "Oceanum Developers", email = "developers@oceanum.science"}]
+license = {text = "MIT license"}
+keywords = ["pydeck", "gridded", "xarray"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.8"
+dependencies = ["pydeck>=0.9.1", "xarray", "orjson", "matplotlib"]
+
+[project.urls]
+Homepage = "https://github.com/oceanum-io/pydeck_grid"
+
+[tool.setuptools.dynamic]
+version = {attr = "pydeck_grid.__version__"}
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "docs*"]
+
+[tool.pytest.ini_options]

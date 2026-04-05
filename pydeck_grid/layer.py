@@ -1,4 +1,7 @@
+import weakref
+
 import orjson
+import pandas as pd
 
 import xarray as xr
 import numpy as np
@@ -37,6 +40,10 @@ def default_serialize(o, remap_function=lower_camel_case_keys):
             return o.tolist()
         else:
             return o.item()
+    elif isinstance(o, pd.DataFrame):
+        return o.to_dict(orient="records")
+    elif isinstance(o, weakref.ref):
+        return None
     attrs = vars(o)
     attrs = {k: v for k, v in attrs.items() if v is not None}
     for ignore_attr in IGNORE_KEYS:
